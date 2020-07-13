@@ -9,5 +9,18 @@
         android:id="@+id/productSearchFragment"
         android:name="ar.com.leandroamarillo.productfinder.productsearch.ProductSearchFragment"
         tools:layout="@layout/fragment_product_search"
-        android:label="ProductSearchFragment" />
+        android:label="ProductSearchFragment" >
+        <action
+            android:id="@+id/action_productSearchFragment_to_productListFragment"
+            app:destination="@id/productListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/productListFragment"
+        tools:layout="@layout/fragment_product_list"
+        android:name="ar.com.leandroamarillo.productfinder.productlist.ProductListFragment"
+        android:label="ProductListFragment" >
+        <argument
+            android:name="query"
+            app:argType="string" />
+    </fragment>
 </navigation>
