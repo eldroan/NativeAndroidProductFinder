@@ -46,7 +46,8 @@ class ProductListFragment : Fragment() {
                 super.onScrollStateChanged(recyclerView, newState)
                 recyclerView.layoutManager?.let {
                     val totalItemCount = it.itemCount
-                    val lastItemViewed = (it as LinearLayoutManager).findLastVisibleItemPosition() + 1
+                    val lastItemViewed =
+                        (it as LinearLayoutManager).findLastVisibleItemPosition() + 1
                     if (totalItemCount == lastItemViewed) {
                         //TODO fix search next page
                         viewModel.searchNextPage()
@@ -70,13 +71,6 @@ class ProductListFragment : Fragment() {
                 binding.errorText.visibility = if (it) View.VISIBLE else View.GONE
             }
         })
-
-        viewModel.products.observe(viewLifecycleOwner, Observer {
-            it.let {
-                adapter.data = it
-            }
-        })
-
 
         return binding.root
     }

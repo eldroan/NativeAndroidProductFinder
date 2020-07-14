@@ -15,8 +15,6 @@ class ProductSearchViewModel : ViewModel() {
     val search = MutableLiveData<String>()
     val canSearch: LiveData<Boolean> = Transformations.map(search) { value -> value.isNotEmpty() }
 
-    //    private val _response = MutableLiveData<String>()
-//    val response: LiveData<String> = _response
     private val _shouldNavigateToList = MutableLiveData<Boolean>()
     val shouldNavigateToList: LiveData<Boolean> = _shouldNavigateToList
 
@@ -33,10 +31,6 @@ class ProductSearchViewModel : ViewModel() {
     fun search() {
         if (canSearch.value == true) {
             _shouldNavigateToList.value = true
-//            Timber.i("Buscando con valor %s", search.value)
-//            _busy.value = true
-
-
         }
     }
 }

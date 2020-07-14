@@ -6,4 +6,5 @@
     <string name="products">Productos</string>
     <string name="searching_query">Buscando \" %s \"…</string>
     <string name="results_query">Resultados \" %s \"…</string>
+    <string name="view_product_text">View</string>
 </resources>

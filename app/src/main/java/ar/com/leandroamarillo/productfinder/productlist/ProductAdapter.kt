@@ -2,30 +2,39 @@ package ar.com.leandroamarillo.productfinder.productlist
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import ar.com.leandroamarillo.productfinder.R
+import ar.com.leandroamarillo.productfinder.databinding.ProductItemLayoutBinding
 import ar.com.leandroamarillo.productfinder.network.model.Results
 
-class TextItemViewHolder(val textView: TextView) : RecyclerView.ViewHolder(textView)
 
-class ProductAdapter : RecyclerView.Adapter<TextItemViewHolder>() {
-    var data = listOf<Results>()
-        set(value) {
-            field = value
-            notifyDataSetChanged()
+class ProductAdapter : ListAdapter<Results, ProductAdapter.ResultsViewHolder>(DiffCallback) {
+    class ResultsViewHolder(private var binding: ProductItemLayoutBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind(product: Results) {
+            binding.product = product
+            binding.executePendingBindings()
         }
-
-    override fun getItemCount() = data.size
-
-    override fun onBindViewHolder(holder: TextItemViewHolder, position: Int) {
-        val item = data[position]
-        holder.textView.text = item.title
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TextItemViewHolder {
+    companion object DiffCallback : DiffUtil.ItemCallback<Results>() {
+        override fun areItemsTheSame(oldItem: Results, newItem: Results): Boolean {
+            return oldItem === newItem
+        }
+
+        override fun areContentsTheSame(oldItem: Results, newItem: Results): Boolean {
+            return oldItem.id == newItem.id
+        }
+    }
+
+    override fun onBindViewHolder(holder: ResultsViewHolder, position: Int) {
+        holder.bind(getItem(position))
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ResultsViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val view = layoutInflater.inflate(R.layout.text_item_view, parent, false) as TextView
-        return TextItemViewHolder(view)
+        return ResultsViewHolder(ProductItemLayoutBinding.inflate(layoutInflater))
+
     }
 }
