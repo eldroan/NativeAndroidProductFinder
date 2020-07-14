@@ -6,24 +6,24 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import ar.com.leandroamarillo.productfinder.databinding.ProductItemLayoutBinding
-import ar.com.leandroamarillo.productfinder.network.model.Results
+import ar.com.leandroamarillo.productfinder.model.Product
 
 
-class ProductAdapter : ListAdapter<Results, ProductAdapter.ResultsViewHolder>(DiffCallback) {
+class ProductAdapter : ListAdapter<Product, ProductAdapter.ResultsViewHolder>(DiffCallback) {
     class ResultsViewHolder(private var binding: ProductItemLayoutBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(product: Results) {
+        fun bind(product: Product) {
             binding.product = product
             binding.executePendingBindings()
         }
     }
 
-    companion object DiffCallback : DiffUtil.ItemCallback<Results>() {
-        override fun areItemsTheSame(oldItem: Results, newItem: Results): Boolean {
+    companion object DiffCallback : DiffUtil.ItemCallback<Product>() {
+        override fun areItemsTheSame(oldItem: Product, newItem: Product): Boolean {
             return oldItem === newItem
         }
 
-        override fun areContentsTheSame(oldItem: Results, newItem: Results): Boolean {
+        override fun areContentsTheSame(oldItem: Product, newItem: Product): Boolean {
             return oldItem.id == newItem.id
         }
     }
