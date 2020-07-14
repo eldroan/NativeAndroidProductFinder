@@ -11,6 +11,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -39,7 +40,10 @@ class ProductListFragment : Fragment() {
 
         binding.productListViewModel = viewModel
         binding.lifecycleOwner = this
-        val adapter = ProductAdapter()
+        val adapter = ProductAdapter(ProductAdapter.OnClickListener {
+            //Navigate to details
+            viewModel.navigateToProduct(it)
+        })
         binding.productList.adapter = adapter
         binding.productList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
@@ -71,6 +75,17 @@ class ProductListFragment : Fragment() {
             it.let {
                 binding.errorText.visibility = if (it) View.VISIBLE else View.GONE
                 binding.errorText.text = viewModel.error.value
+            }
+        })
+
+        viewModel.navigateToProduct.observe(viewLifecycleOwner, Observer {
+            if (it != null) {
+                this.findNavController().navigate(
+                    ProductListFragmentDirections.actionProductListFragmentToProductDetailFragment(
+                        it
+                    )
+                )
+                viewModel.navigateToProductHandled()
             }
         })
 

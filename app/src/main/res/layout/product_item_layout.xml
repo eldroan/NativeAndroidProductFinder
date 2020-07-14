@@ -6,7 +6,7 @@
 
         <variable
             name="product"
-            type="ar.com.leandroamarillo.productfinder.network.model.Results" />
+            type="ar.com.leandroamarillo.productfinder.model.Product" />
     </data>
 
     <LinearLayout

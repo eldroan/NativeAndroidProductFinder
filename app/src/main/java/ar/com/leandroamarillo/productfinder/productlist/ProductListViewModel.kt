@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
+import ar.com.leandroamarillo.productfinder.model.Product
 import ar.com.leandroamarillo.productfinder.network.MeliApi
 import ar.com.leandroamarillo.productfinder.network.model.Results
 import ar.com.leandroamarillo.productfinder.network.model.SearchResponse
@@ -17,16 +18,18 @@ const val LIMIT = 50 // Any more than this errors out the api
 class ProductListViewModel(
     private val search: String
 ) : ViewModel() {
-    private val _products = MutableLiveData<List<Results>>()
-    val products: LiveData<List<Results>> = _products
+    private val _products = MutableLiveData<List<Product>>()
+    val products: LiveData<List<Product>> = _products
     private val _busy = MutableLiveData<Boolean>()
     val busy: LiveData<Boolean> = _busy
     private val _error = MutableLiveData<String>()
-    //TODO: Display errors
     val error: LiveData<String> = _error
-    val errorVisible: LiveData<Boolean> = Transformations.map(_error) { value -> value.isNotEmpty() }
+    val errorVisible: LiveData<Boolean> =
+        Transformations.map(_error) { value -> value.isNotEmpty() }
     private val _offset = MutableLiveData<Int>()
     private lateinit var call: Call<SearchResponse>
+    private val _navigateToProduct = MutableLiveData<Product>()
+    val navigateToProduct: LiveData<Product> = _navigateToProduct
 
     init {
         _offset.value = 0
@@ -36,7 +39,7 @@ class ProductListViewModel(
 
     private fun searchProducts() {
         _busy.value = true
-        Timber.i("Starting search with term: %s ",  this.search)
+        Timber.i("Starting search with term: %s ", this.search)
         call = MeliApi.meliApiService
             .getSearch(this.search, _offset.value!!, LIMIT)
         call.enqueue(object : Callback<SearchResponse> {
@@ -52,7 +55,16 @@ class ProductListViewModel(
                 response: Response<SearchResponse>
             ) {
                 val products = response.body()?.results ?: listOf()
-                _products.value = products
+
+                _products.value = products.map { p ->
+                    Product(
+                        p.id,
+                        p.title,
+                        p.price ?: 0.0,
+                        p.thumbnail.replace("http://","https://"),
+                        p.acceptsMercadopago
+                    )
+                }
                 Timber.i("SUCCESS: %s products retrieved", products.size.toString())
                 _error.value = ""
                 _busy.value = false
@@ -61,7 +73,7 @@ class ProductListViewModel(
     }
 
     //TODO: Handle "Error": "The specified resource is not available at the moment." when querying with large offsets
-    fun searchNextPage(){
+    fun searchNextPage() {
         //TODO: next page should be added at the end, currently replaces existing results
         _offset.value = _offset.value?.plus(LIMIT)
         Timber.i("Retrieving page %s", _offset.value)
@@ -71,5 +83,13 @@ class ProductListViewModel(
     override fun onCleared() {
         super.onCleared()
         call.cancel()
+    }
+
+    fun navigateToProduct(product: Product){
+        _navigateToProduct.value = product
+    }
+
+    fun navigateToProductHandled(){
+        _navigateToProduct.value = null
     }
 }

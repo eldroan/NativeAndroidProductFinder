@@ -7,4 +7,9 @@
     <string name="searching_query">Buscando \" %s \"…</string>
     <string name="results_query">Resultados \" %s \"…</string>
     <string name="view_product_text">View</string>
+    <string name="product_image">Product image</string>
+    <string name="price">Precio: $</string>
+    <string name="mp_yes">ACEPTA MERCADOPAGO</string>
+    <string name="mp_no">NO ACEPTA MERCADOPAGO :C</string>
+    <string name="product_detail">Detalle de producto</string>
 </resources>
