@@ -2,5 +2,9 @@
     <string name="app_name">Product Finder</string>
     <string name="product_search_hint">Buscar productos…</string>
     <string name="search_button_text">Buscar</string>
-    <string name="buscar_productos">Buscar Productos</string>
+    <string name="search_products">Buscar Productos</string>
+    <string name="products">Productos</string>
+    <string name="searching_query">Buscando \" %s \"…</string>
+    <string name="results_query">Resultados \" %s \"…</string>
+    <string name="view_product_text">View</string>
 </resources>
