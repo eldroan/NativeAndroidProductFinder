@@ -61,7 +61,7 @@ class ProductListViewModel(
                         p.id,
                         p.title,
                         p.price ?: 0.0,
-                        p.thumbnail,
+                        p.thumbnail.replace("http://","https://"),
                         p.acceptsMercadopago
                     )
                 }

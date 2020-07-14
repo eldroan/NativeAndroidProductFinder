@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import ar.com.leandroamarillo.productfinder.R
 import ar.com.leandroamarillo.productfinder.databinding.FragmentProductDetailBinding
+import com.bumptech.glide.Glide
 
 class ProductDetailFragment : Fragment() {
     val args: ProductDetailFragmentArgs by navArgs()
@@ -38,6 +39,7 @@ class ProductDetailFragment : Fragment() {
             it.let {
                 binding.marcadoPagoText.text =
                     if (it.acceptsMercadopago) getString(R.string.mp_yes) else getString(R.string.mp_no)
+                Glide.with(this).load(it.thumbnail).into(binding.productImage)
             }
         })
 
