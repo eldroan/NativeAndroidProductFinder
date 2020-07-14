@@ -63,19 +63,17 @@ class ProductListFragment : Fragment() {
                     getString(R.string.searching_query, args.query)
                 else
                     getString(R.string.results_query, args.query)
+
             }
         })
 
         viewModel.errorVisible.observe(viewLifecycleOwner, Observer {
             it.let {
                 binding.errorText.visibility = if (it) View.VISIBLE else View.GONE
+                binding.errorText.text = viewModel.error.value
             }
         })
 
         return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
     }
 }

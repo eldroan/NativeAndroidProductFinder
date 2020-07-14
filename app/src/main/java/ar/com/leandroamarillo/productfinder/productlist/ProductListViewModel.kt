@@ -24,7 +24,7 @@ class ProductListViewModel(
     private val _error = MutableLiveData<String>()
     //TODO: Display errors
     val error: LiveData<String> = _error
-    val errorVisible: LiveData<Boolean> = Transformations.map(_error) { value -> value.isNotEmpty() && !(_busy.value ?: false) }
+    val errorVisible: LiveData<Boolean> = Transformations.map(_error) { value -> value.isNotEmpty() }
     private val _offset = MutableLiveData<Int>()
     private lateinit var call: Call<SearchResponse>
 
