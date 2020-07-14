@@ -28,6 +28,8 @@ class ProductListViewModel(
         Transformations.map(_error) { value -> value.isNotEmpty() }
     private val _offset = MutableLiveData<Int>()
     private lateinit var call: Call<SearchResponse>
+    private val _navigateToProduct = MutableLiveData<Product>()
+    val navigateToProduct: LiveData<Product> = _navigateToProduct
 
     init {
         _offset.value = 0
@@ -57,7 +59,6 @@ class ProductListViewModel(
                 _products.value = products.map { p ->
                     Product(
                         p.id,
-                        p.siteId,
                         p.title,
                         p.price ?: 0.0,
                         p.thumbnail,
@@ -82,5 +83,13 @@ class ProductListViewModel(
     override fun onCleared() {
         super.onCleared()
         call.cancel()
+    }
+
+    fun navigateToProduct(product: Product){
+        _navigateToProduct.value = product
+    }
+
+    fun navigateToProductHandled(){
+        _navigateToProduct.value = null
     }
 }

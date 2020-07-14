@@ -22,5 +22,17 @@
         <argument
             android:name="query"
             app:argType="string" />
+        <action
+            android:id="@+id/action_productListFragment_to_productDetailFragment"
+            app:destination="@id/productDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/productDetailFragment"
+        tools:layout="@layout/fragment_product_detail"
+        android:name="ar.com.leandroamarillo.productfinder.productdetail.ProductDetailFragment"
+        android:label="ProductDetailFragment" >
+        <argument
+            android:name="product"
+            app:argType="ar.com.leandroamarillo.productfinder.model.Product" />
     </fragment>
 </navigation>

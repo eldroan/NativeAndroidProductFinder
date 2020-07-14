@@ -6,7 +6,6 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 class Product(
     val id: String,
-    val siteId: String,
     val title: String,
     val price: Double,
     val thumbnail: String,
