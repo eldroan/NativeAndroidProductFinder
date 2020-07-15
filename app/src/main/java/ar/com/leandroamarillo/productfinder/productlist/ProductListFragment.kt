@@ -1,11 +1,10 @@
 package ar.com.leandroamarillo.productfinder.productlist
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ListAdapter
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -52,8 +51,9 @@ class ProductListFragment : Fragment() {
                     val totalItemCount = it.itemCount
                     val lastItemViewed =
                         (it as LinearLayoutManager).findLastVisibleItemPosition() + 1
-                    if (totalItemCount == lastItemViewed) {
-                        //TODO fix search next page
+
+                    // Search next page if we are at the end and not searching already
+                    if (totalItemCount == lastItemViewed && viewModel.busy.value == false) {
                         viewModel.searchNextPage()
                     }
                 }
@@ -89,6 +89,23 @@ class ProductListFragment : Fragment() {
             }
         })
 
+        viewModel.newProducts.observe(viewLifecycleOwner, Observer {
+            it.let {
+                if(it){
+                    adapter.notifyDataSetChanged()
+                    Timber.i("New data, telling the adapter to update")
+                }
+            }
+        })
+
+        viewModel.displayNoMoreProducts.observe(viewLifecycleOwner, Observer {
+            it.let {
+                if(it){
+                    viewModel.noMoreProductsHandled()
+                    Toast.makeText(this.context, getText(R.string.no_more_products), Toast.LENGTH_SHORT).show()
+                }
+            }
+        })
         return binding.root
     }
 }

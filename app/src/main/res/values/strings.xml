@@ -12,4 +12,5 @@
     <string name="mp_yes">ACEPTA MERCADOPAGO</string>
     <string name="mp_no">NO ACEPTA MERCADOPAGO :C</string>
     <string name="product_detail">Detalle de producto</string>
+    <string name="no_more_products">No hay más productos para ver :c</string>
 </resources>
